@@ -39,7 +39,7 @@ public class ReviewController {
     }
 
     @PostMapping("")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('BOOK_USER')")
     @Transactional
     public ResponseEntity<?> createReview(
             @Valid @RequestBody CreateReviewRequest createReviewRequest,
@@ -50,7 +50,7 @@ public class ReviewController {
     }
 
     @PatchMapping("/{reviewId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('BOOK_ADMIN')")
     @Transactional
     public ResponseEntity<ReviewDTO> updateReview(
             @NotNull @PathVariable Long reviewId,
@@ -61,7 +61,7 @@ public class ReviewController {
     }
 
     @DeleteMapping("/{reviewId}")
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasRole('BOOK_ADMIN')")
     @Transactional
     public ResponseEntity<?> deleteReview(@NotNull @PathVariable Long reviewId) throws NotFoundException {
         reviewService.deleteReview(reviewId);
