@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -22,7 +23,7 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
     @Autowired
-    private com.pultyn.spring_oauth.service.UserService userService;
+    private UserService userService;
     @Autowired
     private BookService bookService;
 
@@ -39,17 +40,9 @@ public class ReviewService {
                 .collect(Collectors.toList());
     }
 
-    public ReviewDTO createReview(CreateReviewRequest createReviewRequest)
+    public ReviewDTO createReview(CreateReviewRequest createReviewRequest, Jwt jwt)
             throws NotFoundException {
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Long userId = 0L;
-
-        UserEntity user;
-        try {
-            user = userService.findUserById(userId);
-        } catch (NotFoundException ex) {
-            throw new IllegalStateException("User with ID from auth does not exist in database");
-        }
+        UserEntity user =  userService.getOrCreateUser(jwt);
         Book book = bookService.findBookById(createReviewRequest.getBookId());
 
         Review review = Review.builder()
