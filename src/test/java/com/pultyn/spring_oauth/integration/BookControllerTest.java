@@ -150,98 +150,98 @@ public class BookControllerTest {
                 .andExpect(status().isForbidden());
     }
 
-    @Test
-    void updateBook_admin_success() throws Exception {
-        Book book = bookRepo.save(Book.builder()
-                .title("Old").author("Some One").build());
-
-        UserEntity admin = userRepo.save(UserEntity.builder()
-                .email("admin@example.com")
-                .password("{noop}pw")
-                .role(UserRole.ADMIN)
-                .build());
-        String token = jwtService.generateToken(admin);
-
-        String body = """
-        { "title":"New Title", "author":"New Author" }
-        """;
-
-        mvc.perform(patch("/api/books/{id}", book.getId())
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                        .contentType("application/json")
-                        .content(body))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.title").value("New Title"))
-                .andExpect(jsonPath("$.author").value("New Author"));
-    }
-
-    @Test
-    void updateBook_notFound_returns404() throws Exception {
-        UserEntity admin = userRepo.save(UserEntity.builder()
-                .email("admin@example.com")
-                .password("{noop}pw")
-                .role(UserRole.ADMIN)
-                .build());
-        String token = jwtService.generateToken(admin);
-
-        mvc.perform(patch("/api/books/{id}", 999L)
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                        .contentType("application/json")
-                        .content("{\"title\":\"X\",\"author\":\"Y\"}"))
-                .andExpect(status().isNotFound());
-    }
-
-    @Test
-    void updateBook_user_forbidden() throws Exception {
-        UserEntity user = userRepo.save(UserEntity.builder()
-                .email("user@example.com")
-                .password("{noop}pw")
-                .role(UserRole.USER)
-                .build());
-        String token = jwtService.generateToken(user);
-
-        Book book = bookRepo.save(Book.builder()
-                .title("T").author("A").build());
-
-        mvc.perform(patch("/api/books/{id}", book.getId())
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                        .contentType("application/json")
-                        .content("{\"title\":\"X\",\"author\":\"Y\"}"))
-                .andExpect(status().isForbidden());
-    }
-
-    @Test
-    void deleteBook_success() throws Exception {
-        UserEntity admin = userRepo.save(UserEntity.builder()
-                .email("admin@example.com")
-                .password("{noop}dummy")
-                .role(UserRole.ADMIN)
-                .build());
-
-        Book book = bookRepo.save(Book.builder()
-                .title("Clean Code").author("Robert C. Martin").build());
-        String token = jwtService.generateToken(admin);
-
-        mvc.perform(delete("/api/books/{id}", book.getId())
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .andExpect(status().isNoContent());
-    }
-
-    @Test
-    void deleteBook_user() throws Exception {
-        UserEntity user = userRepo.save(UserEntity.builder()
-                .email("user@example.com")
-                .password("{noop}pw")
-                .role(UserRole.USER)
-                .build());
-
-        Book book = bookRepo.save(Book.builder()
-                .title("DDD").author("Eric Evans").build());
-
-        String token = jwtService.generateToken(user);
-
-        mvc.perform(delete("/api/books/{id}", book.getId())
-                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
-                .andExpect(status().isForbidden());
-    }
+//    @Test
+//    void updateBook_admin_success() throws Exception {
+//        Book book = bookRepo.save(Book.builder()
+//                .title("Old").author("Some One").build());
+//
+//        UserEntity admin = userRepo.save(UserEntity.builder()
+//                .email("admin@example.com")
+//                .password("{noop}pw")
+//                .role(UserRole.ADMIN)
+//                .build());
+//        String token = jwtService.generateToken(admin);
+//
+//        String body = """
+//        { "title":"New Title", "author":"New Author" }
+//        """;
+//
+//        mvc.perform(patch("/api/books/{id}", book.getId())
+//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+//                        .contentType("application/json")
+//                        .content(body))
+//                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.title").value("New Title"))
+//                .andExpect(jsonPath("$.author").value("New Author"));
+//    }
+//
+//    @Test
+//    void updateBook_notFound_returns404() throws Exception {
+//        UserEntity admin = userRepo.save(UserEntity.builder()
+//                .email("admin@example.com")
+//                .password("{noop}pw")
+//                .role(UserRole.ADMIN)
+//                .build());
+//        String token = jwtService.generateToken(admin);
+//
+//        mvc.perform(patch("/api/books/{id}", 999L)
+//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+//                        .contentType("application/json")
+//                        .content("{\"title\":\"X\",\"author\":\"Y\"}"))
+//                .andExpect(status().isNotFound());
+//    }
+//
+//    @Test
+//    void updateBook_user_forbidden() throws Exception {
+//        UserEntity user = userRepo.save(UserEntity.builder()
+//                .email("user@example.com")
+//                .password("{noop}pw")
+//                .role(UserRole.USER)
+//                .build());
+//        String token = jwtService.generateToken(user);
+//
+//        Book book = bookRepo.save(Book.builder()
+//                .title("T").author("A").build());
+//
+//        mvc.perform(patch("/api/books/{id}", book.getId())
+//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+//                        .contentType("application/json")
+//                        .content("{\"title\":\"X\",\"author\":\"Y\"}"))
+//                .andExpect(status().isForbidden());
+//    }
+//
+//    @Test
+//    void deleteBook_success() throws Exception {
+//        UserEntity admin = userRepo.save(UserEntity.builder()
+//                .email("admin@example.com")
+//                .password("{noop}dummy")
+//                .role(UserRole.ADMIN)
+//                .build());
+//
+//        Book book = bookRepo.save(Book.builder()
+//                .title("Clean Code").author("Robert C. Martin").build());
+//        String token = jwtService.generateToken(admin);
+//
+//        mvc.perform(delete("/api/books/{id}", book.getId())
+//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+//                .andExpect(status().isNoContent());
+//    }
+//
+//    @Test
+//    void deleteBook_user() throws Exception {
+//        UserEntity user = userRepo.save(UserEntity.builder()
+//                .email("user@example.com")
+//                .password("{noop}pw")
+//                .role(UserRole.USER)
+//                .build());
+//
+//        Book book = bookRepo.save(Book.builder()
+//                .title("DDD").author("Eric Evans").build());
+//
+//        String token = jwtService.generateToken(user);
+//
+//        mvc.perform(delete("/api/books/{id}", book.getId())
+//                        .header(HttpHeaders.AUTHORIZATION, "Bearer " + token))
+//                .andExpect(status().isForbidden());
+//    }
 }

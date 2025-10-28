@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Database parameters
-DB_HOST=spring-jwt-db
-DB_USER=root
-DB_PASSWORD=my-secret-pwd
+DB_HOST=${DB_HOST}
+DB_USER=${DB_USERNAME}
+DB_PASSWORD=${DB_PASSWORD}
 
 echo "Waiting for database to be ready..."
 
