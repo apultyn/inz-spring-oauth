@@ -1,6 +1,7 @@
 package com.pultyn.spring_oauth.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -20,6 +21,9 @@ import java.util.List;
 @EnableMethodSecurity
 @EnableWebSecurity
 public class SecurityConfig {
+    @Value("${cors.allowed-origins}")
+    private String allowedOrigin;
+
     @Autowired
     private JwtAuthConverter jwtAuthConverter;
 
@@ -42,7 +46,7 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration conf = new CorsConfiguration();
 
-        conf.setAllowedOrigins(List.of("http://localhost:5173"));
+        conf.setAllowedOrigins(List.of(allowedOrigin));
         conf.setAllowedMethods(Arrays.asList("GET", "POST", "PATCH", "PUT", "DELETE", "OPTIONS"));
         conf.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         conf.setAllowCredentials(true);
