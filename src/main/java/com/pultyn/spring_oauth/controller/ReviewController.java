@@ -1,9 +1,7 @@
 package com.pultyn.spring_oauth.controller;
 
-import com.pultyn.spring_oauth.dto.BookDTO;
 import com.pultyn.spring_oauth.dto.ReviewDTO;
 import com.pultyn.spring_oauth.exceptions.NotFoundException;
-import com.pultyn.spring_oauth.model.Book;
 import com.pultyn.spring_oauth.model.Review;
 import com.pultyn.spring_oauth.request.CreateReviewRequest;
 import com.pultyn.spring_oauth.request.UpdateReviewRequest;

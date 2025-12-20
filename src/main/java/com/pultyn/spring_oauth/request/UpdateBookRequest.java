@@ -1,6 +1,5 @@
 package com.pultyn.spring_oauth.request;
 
-import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 

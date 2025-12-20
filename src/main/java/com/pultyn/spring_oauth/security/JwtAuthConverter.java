@@ -7,7 +7,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.server.resource.authentication.JwtAuthenticationToken;
 import org.springframework.security.oauth2.server.resource.authentication.JwtGrantedAuthoritiesConverter;
-import org.springframework.security.web.authentication.AbstractAuthenticationTargetUrlRequestHandler;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -35,9 +34,9 @@ public class JwtAuthConverter implements Converter<Jwt, AbstractAuthenticationTo
             return Set.of();
         }
 
-        Map<String, Object> realmAccess = jwt.getClaim("realm_access");
+        Map<String, Collection<String>> realmAccess = jwt.getClaim("realm_access");
 
-        Collection<String> roles = (Collection<String>) realmAccess.get("roles");
+        Collection<String> roles = realmAccess.get("roles");
 
         return roles.stream()
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role))

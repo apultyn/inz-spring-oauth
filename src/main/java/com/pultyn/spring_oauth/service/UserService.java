@@ -4,7 +4,6 @@ import com.pultyn.spring_oauth.exceptions.NotFoundException;
 import com.pultyn.spring_oauth.model.UserEntity;
 import com.pultyn.spring_oauth.repository.UserRepository;
 import jakarta.transaction.Transactional;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Service;
